@@ -1,0 +1,26 @@
+version: "3.5"
+services:
+  nginx:
+    container_name: nginx
+    image: nginx
+    volumes:
+    - ./default.conf:/etc/nginx/conf.d/default.conf
+    - ./data/:/data
+    ports:
+    - 80:80
+    networks:
+      - nginx
+    depends_on:
+      - php
+  php:
+    container_name: php
+    image: php:7.3-fpm-alpine
+    working_dir: /code
+    volumes:
+    - ./data:/code
+    networks:
+      - nginx
+
+networks:
+  nginx:
+    driver: bridge
